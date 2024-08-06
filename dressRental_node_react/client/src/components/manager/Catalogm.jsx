@@ -42,7 +42,7 @@ const Catalogm = () => {
         
         <div className="catalog" dir='rtl'>
         <Button label="הוספת שמלה" icon="pi pi-plus" onClick={()=>setVisible(true)}/>
-        <Dialog children="card" header="Add Car" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+        <Dialog children="card" header="Add Dress" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
     <AddDress handleCloseDialog={() => setVisible(false)} />
 </Dialog>
 
