@@ -31,7 +31,6 @@ deleteDress: build.mutation({
     query: (id) =>({
     url: '/api/dress/'+id,
     method: "DELETE"
-    // body: dress
     }),
     invalidatesTags:["Dresses"]
 }),

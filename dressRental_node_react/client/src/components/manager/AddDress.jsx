@@ -31,6 +31,8 @@ const AddDress=(props)=>{
 
 
      const onUpload = () => {
+        console.log(toast);
+        
          toast.current.show({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
      };
     const sizing = (e) => {
@@ -89,65 +91,6 @@ const AddDress=(props)=>{
     
     
 
-//     return(
-//         <div >  
-//             <br/>         
-          
-//  <InputText
-//                 placeholder="שם מוצר"
-//                 value={formik.values.name}
-//                 name='name'
-//                 className={classNames({ 'p-invalid': isFormFieldInvalid('name') })}
-//                 onChange={(e) => {
-//                     formik.setFieldValue('name', e.target.value);
-//                 }}
-//             />
-//             {getFormErrorMessage('name')}
-
-
-//         <FloatLabel>
-//                 <InputTextarea id="description" value={descVal} onChange={(e) => setDescVal(e.target.value)} rows={5} cols={30} />
-//             </FloatLabel><br/>
-//             <Chips ref={sizes} placeholder={"מידות"}separator="," 
-//          value={formik.values.sizes}
-//          name='sizes'
-//          className={classNames({ 'p-invalid': isFormFieldInvalid('sizes') })}
-//          onChange={(e) => {
-//             sizing(e)            //  setTextu(e.value)
-//              formik.setFieldValue('sizes', e.value);
-//          }}
-//          />
-//      {getFormErrorMessage('sizes')}
-
-//             {/* <label htmlFor="currency-us" className="font-bold block mb-2"></label> */}
-//             <InputNumber inputId="currency-us" value={priceVal} onValueChange={(e) => setPriceVal(e.value)} mode="currency" currency="ils" locale="en-US" placeholder={"מחיר"} />
-//             {/* <label htmlFor="minmax-buttons" className="font-bold block mb-2">Min-Max Boundaries</label> */}<br/><br/>
-//             <InputNumber
-//     inputId="minmax-buttons"
-//     value={formik.values.qty}
-//     onValueChange={(e) => formik.setFieldValue('qty', e.value)}
-//     mode="decimal"
-//     showButtons
-//     min={0}
-// />
-// {getFormErrorMessage('qty')}
-
-               
-//                 {/* <InputNumber inputId="minmax-buttons" value={qtyVal} onValueChange={(e) => setQtyVal(e.value)} mode="decimal" showButtons min={0}/> */}
-//           <Toast ref={toast}></Toast>
-//           <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" maxFileSize={1000000} onUpload={onUpload} />
-
-//  <div dir='rtl' style={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
-          
-//         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', width: '100%' }}>
-//             {/* <Button label="בצע" icon="pi pi-check" style={{ width: "45%", marginRight: '5px' }} onClick={formik.handleSubmit} type="submit"/> &nbsp; */}
-//             <Button label="בצע" icon="pi pi-check" style={{ width: "45%", marginRight: '5px' }} type="submit" onClick={formik.handleSubmit}/>
-
-//             <Button label="בטל" severity="secondary" icon="pi pi-times" style={{ width: "45%" }} onClick={handleCloseDialog}/>
-//         </div>
-//             </div>        
-//             </div>
-//     )
 return (
     <div>
       <form onSubmit={formik.handleSubmit}> {/* Add onSubmit event handler to the form */}
@@ -178,16 +121,6 @@ return (
           }}
         />
         {getFormErrorMessage('sizes')}
-  
-        {/* <InputNumber
-          inputId="currency-us"
-          value={priceVal}
-          onValueChange={(e) => setPriceVal(e.value)}
-          mode="currency"
-          currency="ils"
-          locale="en-US"
-          placeholder={"מחיר"}
-        /><br/><br/> */}
         <InputNumber
   inputId="currency-us"
   value={formik.values.price} // Use formik.values.price instead of priceVal
@@ -213,12 +146,12 @@ return (
         <Toast ref={toast}></Toast>
         <FileUpload mode="basic" name="demo[]" url="/api/upload" accept="image/*" maxFileSize={1000000} onUpload={onUpload} />
   
-        <div dir='rtl' style={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
+        {/* <div dir='rtl' style={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}> */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', width: '100%' }}>
             <Button label="בצע" icon="pi pi-check" style={{ width: "45%", marginRight: '5px' }} type="submit" onClick={formik.handleSubmit}/>
             <Button label="בטל" severity="secondary" icon="pi pi-times" style={{ width: "45%" }} onClick={handleCloseDialog} />
           </div>
-        </div>
+        {/* </div> */}
       </form>
     </div>
   );

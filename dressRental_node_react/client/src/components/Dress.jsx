@@ -10,14 +10,14 @@ const Dress = (props) => {
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
  
-    // const handleNavigate = () => {
-    //     console.log("lllllllllllllllllll");
-    //     navigate('/form', { state: { carr: car } });
-    // };
+    const handleNavigate = () => {
+        console.log("lllllllllllllllllll");
+        navigate('/rent', { state: { dress: dress } });
+    };
  
-    // const handleAddToCart = () => {
-    //     // Add your logic here for adding the car to the cart
-    // };
+    const handleAddToCart = () => {
+        // Add your logic here for adding the car to the cart
+    };
  
     return (
         <Card className="p-mb-3" key={dress.id} style={{ border: '1px solid #ccc', borderRadius: '5px', width: '300px' }}>
@@ -36,7 +36,7 @@ const Dress = (props) => {
                 <div className="p-col">
                     <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
                         <span className="text-2xl font-semibold">₪{dress.price}</span>
-                        <Button label="להשכרה" className="p-button-rounded p-button-info" onClick={()=>console.log("hello")} />
+                        <Button label="לפרטים" className="p-button-rounded p-button-info" onClick={handleNavigate} />
                     </div>
                 </div>
             </div>
