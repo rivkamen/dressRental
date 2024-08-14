@@ -3,45 +3,27 @@ const Schema = mongoose.Schema;
 
 const { v4: uuidv4 } = require('uuid');
 
-
 const dressSchema = new Schema({
-  name: { 
+  size: { 
           type: String, 
-          required: true 
+        //   required: true 
   },
   barcode: {
         type: String,
-        default: uuidv4,  // ברירת מחדל יוצרת מזהה ייחודי
-        unique: true  // וודא שהברקוד יהיה ייחודי
+        default: uuidv4,
+        unique: true  
   },
-  description: { 
+   price: { 
           type: String, 
-  },
-  sizes: { 
-          type: [String], 
-          required: true 
-  },  
-  price: { 
-          type: Number, 
           required: true 
   },
-  images: { 
-          type: [String], 
-  }, 
-  quantity: { 
-          type: Number, 
-          required: true 
-  },  // כמות השמלות הזמינות
-  rented: { 
-          type: Number, 
-          default: 0 
-  }         // כמות השמלות המושכרות
+  renteDates: { 
+          type: [Date]
+  }         
 },
     
 {
     timestamps:true
     });
-
-module.exports = mongoose.model('Dress', dressSchema);
-
+module.exports=dressSchema
 

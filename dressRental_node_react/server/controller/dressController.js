@@ -1,79 +1,72 @@
 const Dress = require('../models/Dress');
 const createDress=async(req,res)=>{
-  const {name,description,sizes,price,quantity,rented,imageUrl} = req.body
-  if (!name || !sizes ||!price || !quantity) {
+  const {_id,key,size,price} = req.body
+  if (!price) {
       return res.status(400).json({message:'required field is missing'})
       }
-      let imageUrll=null
-  if(imageUrl){
-  imageUrll = req.file.path;}
-  const dress = await Dress.create({name,description,sizes,price,images:imageUrll,quantity,rented})
-  if(dress){
-     return res.status(201).json({success:true,
-          message:`dress ${dress.name} created successfuly`,
-          })
-  }
-  else
-      return res.status(400).json({message:"failed"})
-    
+      const dress=await Dress.findById(_id).exec()
+      if(!dress){
+      return res.status(401).json({message:"not found"})
+      }
+          // if(size){
+          //     dress.size=size
+          // }
+          // if(price){
+          //     dress.price=price;
+          // }
+          const searchKey=dress.dressListSize.find(d=>d.key===key)
+          const arr=[...dress.dressListSize[key].dresses,{renteDates:[]}]
+          const full=[...]
+          let ind=arr.length-1;
+          survey.questions=arr            
+      
+          const MyUpdateDress=await dress.save()
+          return res.status(201).json({success:true,
+              message:`dress ${dress.name} updated successfuly`,
+              })
+      
 }
 
 
-const getDresses=async(req,res)=>{
-  const dresses=await Dress.find().lean()
-  if(!dresses)
-  {
-    res.status(500).json({ error: error.message });
-  }
+// const getDresses=async(req,res)=>{
+//   const dresses=await Dress.find().lean()
+//   if(!dresses)
+//   {
+//     res.status(500).json({ error: error.message });
+//   }
 
-  return res.status(200).json(dresses);
+//   return res.status(200).json(dresses);
 
-}
+// }
 
 const getDressById=async(req,res)=>{
-  const {_id}=req.params
-  const dress=await Dress.findById(_id).lean()
+  const {_id,_idDress,key}=req.params
+  const dress=await Dress.findById(_idDress).lean()
   
   if(!dress)
   {
     return  res.status(401).json({message:"not found"})
   }
-  return res.json(dress)
+  const dressListSize = dress.dressListSizes.find(item => item.key === key);
+  const d=dressListSize.dresses.find(i=>i._id==_id)
+  return res.json(d)
   }
 
 const updateDress=async(req,res)=>{
-  const {_id}=req.params
-    const {name,description,sizes,price,images,quantity,rented}=req.body
+  const {_id,_idDress}=req.params
+    const {size,price}=req.body
     const dress=await Dress.findById(_id).exec()
     if(!dress){
     return res.status(401).json({message:"not found"})
     }
 
-        if(description){
-            dress.description=description
+        if(size){
+            dress.size=size
         }
-        if(name){
-            dress.name=name;
-        }
-        if(sizes){
-          dress.sizes=sizes;
-        }
-        if(price)
-        {
+        if(price){
             dress.price=price;
         }
-        if(images)
-          {
-              dress.images=images;
-          }
-        if(quantity)
-          {
-              dress.quantity=quantity;
-          }
-        if(rented)
-          {
-                dress.rented=rented;
-          }
+       
           
     
         const MyUpdateDress=await dress.save()
@@ -124,3 +117,134 @@ const unRentedDress=async(_id)=>{
 
 }
 module.exports = {createDress,getDresses,getDressById,updateDress,deleteDress,rentedDress,unRentedDress}
+
+
+
+
+/*const Survey=require('../models/Survey')
+const addQuestion=async(req,res)=>{
+    const{_id,body,answers}=req.body
+    // console.log(body);
+    // console.log(_id);
+
+    if(!body){
+        console.log('not body');
+
+        return res.status(409).json({message:"require"})
+    }
+    const survey=await Survey.findById(_id).exec()
+    if(!survey)
+    {
+        console.log('not survey');
+
+        return res.status(400).json({message:"Survey not foundd"})    }
+
+    const arr=[...survey.questions,{body:body,answers:answers}]
+    let ind=arr.length-1;
+    survey.questions=arr
+    // if(answers)
+    // {
+    //     if(survey.questions[ind].body===body)
+    //     {
+    //         answers.forEach(a => {addAnswer(_id,survey.questions[ind]._id,a)
+    //         });
+    //     }
+    // }
+    console.log("survey#################################&&&&&&&&&&&&&&&&&&");
+        console.log(survey.questions);
+    const updatesurvey= await survey.save()
+    return res.status(200).json({success:true,
+        message:`question successfuly`,
+    data:survey})
+}
+
+const updateQuestion=async(req,res)=>{
+    const{_id,questionId,body}=req.body
+    if(!body){
+        return res.status(409).json({message:"require"})
+    }
+    const survey=await Survey.findById(_id).exec()
+    if(!survey)
+    {        
+        console.log('1111111111111111111111111111111111111');
+        return res.status(400).json({message:"Survey not found"})
+    }
+    const question=survey.questions.find(q=>q._id==questionId)
+    if(!question)
+    {
+        console.log('2222222222222222222222222222222222222');
+
+        return res.status(400).json({message:"Question not found"})
+    }
+        question.body=body
+    const updatesurvey= await survey.save()
+    return res.status(200).json({success:true,
+        message:`Question updated successfuly`
+        })
+}
+const deleteQuestion=async(req,res)=>{
+    const{_id,questionId}=req.body
+    const survey=await Survey.findById(_id).exec()
+    
+    if(!survey){
+        return res.status(400).json({message:"Survey not found"})
+    }
+    const question=survey.questions.find(q=>q._id==questionId)
+    if(!question)
+    {
+        return res.status(400).json({message:"Question not found"})
+    }
+    survey.questions.splice(survey.questions.indexOf(question),1)
+    const updatesurvey= await survey.save()   
+    return res.status(200).json({success:true,
+            message:`Question deleted successfuly`
+            })
+    
+
+}
+const chooseSeg=async(req,res)=>{
+    const{_id,questionId,kind,choose,note}=req.body
+    const survey=await Survey.findById(_id).exec()
+    if(!survey){
+        return res.status(400).json({message:"Survey not found"})
+    }
+    const question=survey.questions.find(q=>q._id==questionId)
+    if(!question)
+    {
+        return res.status(400).json({message:"Survey not found"})
+    }
+if(kind)
+{
+
+    const kindArr=["תרשים מקלות מורכב","תרשים עוגה","גרף","היסטוגרמה"]
+    const k=kindArr.find(s=>s==kind)
+    if(!k)
+    {
+        return res.status(401).json({message:"kind are not valid"})
+    }
+    
+    question.segmentation.kind=kind
+}
+if(choose)
+    {
+    
+        const chooseArr=["גיל","מגדר","מגזר"]
+        const c=chooseArr.find(s=>s==choose)
+        if(!c)
+        {
+            return res.status(401).json({message:"choose are not valid"})
+        }
+        
+        question.segmentation.choose=choose
+    }
+if(note)
+    question.segmentation.note=note
+const updatesurvey= await survey.save()   
+return res.status(201).json({success:true,
+            message:`Question updated successfuly`
+            })
+}
+
+
+
+module.exports={addQuestion,updateQuestion,deleteQuestion,chooseSeg} */
