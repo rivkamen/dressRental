@@ -21,7 +21,7 @@ const upload = multer({ storage: storage });
 
 router.use(verifyJWT)
 router.get("/", DressController.getDresses)
-router.put("/",upload.single('path'), DressController.createDress)
+router.post("/",upload.single('path'), DressController.createDress)
 router.put("/:_id", DressController.updateDress)
 router.delete("/:_id", DressController.deleteDress)
 router.get("/:_id", DressController.getDressById)

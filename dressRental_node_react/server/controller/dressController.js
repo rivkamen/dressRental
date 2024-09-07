@@ -1,6 +1,8 @@
 const Dress = require('../models/Dress');
 const createDress=async(req,res)=>{
-  const {_id,key,size,price} = req.body
+  console.log("beg");
+  
+  const {_id,size,price} = req.body
   if (!price) {
       return res.status(400).json({message:'required field is missing'})
       }
@@ -14,11 +16,15 @@ const createDress=async(req,res)=>{
           // if(price){
           //     dress.price=price;
           // }
-          const searchKey=dress.dressListSize.find(d=>d.key===key)
-          const arr=[...dress.dressListSize[key].dresses,{renteDates:[]}]
-          const full=[...]
-          let ind=arr.length-1;
-          survey.questions=arr            
+          console.log("log");
+          
+          const index = dress.dressListSizes.findIndex(item => item.key === key);
+
+          // const searchKey=dress.dressListSize.find(d=>d.key===key)
+          const arr=[...dress.dressListSize.key.dresses,{renteDates:[]}]
+          dress.dressListSizes[index].dresses=arr
+          // let ind=arr.length-1;
+          // survey.questions=arr            
       
           const MyUpdateDress=await dress.save()
           return res.status(201).json({success:true,
@@ -28,16 +34,16 @@ const createDress=async(req,res)=>{
 }
 
 
-// const getDresses=async(req,res)=>{
-//   const dresses=await Dress.find().lean()
-//   if(!dresses)
-//   {
-//     res.status(500).json({ error: error.message });
-//   }
+const getDresses=async(req,res)=>{
+  const dresses=await Dress.find().lean()
+  if(!dresses)
+  {
+    res.status(500).json({ error: error.message });
+  }
 
-//   return res.status(200).json(dresses);
+  return res.status(200).json(dresses);
 
-// }
+}
 
 const getDressById=async(req,res)=>{
   const {_id,_idDress,key}=req.params
